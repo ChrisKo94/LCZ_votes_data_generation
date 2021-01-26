@@ -23,7 +23,7 @@ addon_list = ['guangzhou', 'islamabad', 'jakarta', 'losangeles', 'moscow',
 # Define labels
 labels = np.arange(1,18)
 
-path_data = "/data/lvz42_votes/"
+path_data = "/data/lcz42_votes/data/"
 
 def concatenate_cities_labels(cities_list):
     concatenated_mat = np.array([])
@@ -123,12 +123,12 @@ y_test_addons = to_one_hot_majority(y_test_addons, labels)
 y_test = np.vstack((y_test_cities, y_test_addons))
 y_test = y_test.astype(int)
 
-train_data_h5 = h5py.File('E:/Dateien/LCZ Votes/train_data.h5', 'w')
+train_data_h5 = h5py.File(path_data + 'train_data.h5', 'w')
 train_data_h5.create_dataset('x', data=x_train)
 train_data_h5.create_dataset('y', data=y_train)
 train_data_h5.close()
 
-test_data_h5 = h5py.File('E:/Dateien/LCZ Votes/test_data.h5', 'w')
+test_data_h5 = h5py.File(path_data + 'test_data.h5', 'w')
 test_data_h5.create_dataset('x', data=x_test)
 test_data_h5.create_dataset('y', data=y_test)
 test_data_h5.close()
@@ -173,6 +173,6 @@ entropies_test_addons = Categorical(probs = y_test_addons).entropy()
 # Concatenate entropies of test cities & addons
 entropies_test = torch.cat((entropies_test_cities, entropies_test_addons), 0)
 
-entropies_test_h5 = h5py.File('E:/Dateien/LCZ Votes/entropies_test.h5', 'w')
+entropies_test_h5 = h5py.File(path_data + 'entropies_test.h5', 'w')
 entropies_test_h5.create_dataset('entropies_test', data=entropies_test.numpy())
 entropies_test_h5.close()
