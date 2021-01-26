@@ -17,8 +17,8 @@ overall_list = ['amsterdam', 'berlin', 'cologne', 'guangzhou', 'islamabad', 'jak
 city_list = ['amsterdam', 'berlin', 'cologne', 'london', 'madrid',
              'milan', 'munich', 'paris', 'rome', 'zurich']
 
-addon_list = ['guangzhou', 'islamabad', 'jakarta', 'losangeles', 'moscow',
-              'mumbai', 'nairobi', 'riodejaneiro']
+addon_list = ['guangzhou_addon', 'islamabad_addon', 'jakarta_addon', 'losangeles_addon', 'moscow_addon',
+              'mumbai_addon', 'nairobi_addon', 'riodejaneiro_addon']
 
 # Define labels
 labels = np.arange(1,18)
