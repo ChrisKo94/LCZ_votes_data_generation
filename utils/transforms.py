@@ -3,8 +3,8 @@ import h5py
 from operator import add
 import torch
 
-#path_data = "/data/lcz42_votes/data/"
-path_data = "D:/Data/LCZ_Votes/"
+path_data = "/data/lcz42_votes/data/"
+#path_data = "D:/Data/LCZ_Votes/"
 
 def concatenate_cities_labels(cities_list):
     concatenated_mat = np.array([])
