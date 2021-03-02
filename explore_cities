@@ -1,0 +1,28 @@
+import numpy as np
+import h5py
+from operator import add
+import matplotlib.pyplot as plt
+
+from utils.transforms import to_one_hot_majority, to_one_hot, concatenate_cities_labels, concatenate_cities_patches
+
+path_data = "D:/Data/LCZ_Votes/"
+labels = np.arange(1,18)
+
+city_list = ['amsterdam', 'berlin', 'cologne', 'london', 'madrid',
+             'milan', 'munich', 'paris', 'rome', 'zurich']
+
+addon_list = ['guangzhou_addon', 'islamabad_addon', 'jakarta_addon', 'losangeles_addon', 'moscow_addon',
+              'mumbai_addon', 'nairobi_addon', 'riodejaneiro_addon']
+
+test = np.array(h5py.File(path_data + "jakarta_addon.h5","r")["label"])
+
+for i in addon_list:
+    data_i = to_one_hot_majority(np.array(h5py.File(path_data + str(i) + ".h5",'r')["label"]).astype(int), labels, addon=True)
+    labs_freq_tmp = np.sum(data_i, axis=0)
+    if i == "guangzhou_addon":
+        labs_freq_table = np.transpose(labs_freq_tmp)
+    else:
+        labs_freq_table = np.vstack((labs_freq_table,
+                                     np.transpose(labs_freq_tmp)))
+
+np.savetxt("ex.csv", labs_freq_table, delimiter=";", fmt="%d")
