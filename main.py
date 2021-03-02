@@ -1,8 +1,6 @@
 import numpy as np
 import h5py
 import math
-import torch
-from torch.distributions import Categorical
 
 from utils.transforms import to_one_hot_majority, to_one_hot, concatenate_cities_labels, concatenate_cities_patches
 
