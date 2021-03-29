@@ -13,8 +13,8 @@ path_data = "/data/lcz42_cities/"
 test_cities = ['amsterdam', 'berlin', 'cologne', 'london', 'madrid',
              'milan', 'munich', 'paris', 'rome', 'zurich']
 
-test_addons = ['guangzhou_addon', 'islamabad_addon', 'jakarta_addon', 'losangeles_addon', 'moscow_addon',
-              'mumbai_addon', 'nairobi_addon', 'riodejaneiro_addon']
+test_addons = ['guangzhou', 'islamabad', 'jakarta', 'losangeles', 'moscow',
+              'mumbai', 'nairobi', 'riodejaneiro']
 
 x_test = concatenate_cities_patches(test_cities + test_addons)
 
