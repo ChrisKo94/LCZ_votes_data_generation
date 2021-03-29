@@ -7,7 +7,7 @@ from utils.transforms import to_one_hot_majority, to_one_hot, concatenate_cities
 # Define labels
 labels = np.arange(1,18)
 
-path_data = "/data/lcz42_cities/"
+path_data = "/data/lcz42_votes/data/"
 #path_data = "D:/Data/LCZ_Votes/"
 
 test_cities = ['amsterdam', 'berlin', 'cologne', 'london', 'madrid',
@@ -39,7 +39,8 @@ x_test = x_test[indices_test]
 y_val = y_test[indices_val,]
 y_test = y_test[indices_test,]
 
-path_data = "D:/Data/LCZ42_Cities/"
+#path_data = "D:/Data/LCZ42_Cities/"
+path_data = "/data/lcz42_cities/"
 
 validation_data_h5 = h5py.File(path_data + 'validation_data.h5', 'w')
 validation_data_h5.create_dataset('x', data=x_val)
