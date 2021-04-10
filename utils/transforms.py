@@ -2,9 +2,9 @@ import numpy as np
 import h5py
 from operator import add
 
-path_data = "/data/lcz42_cities/"
+#path_data = "/data/lcz42_cities/"
 #path_data = "D:/Data/LCZ42_Cities/"
-#path_data = "D:/Data/LCZ_Votes/"
+path_data = "D:/Data/LCZ_Votes/"
 
 def concatenate_cities_labels(cities_list):
     concatenated_mat = np.array([])
