@@ -7,13 +7,13 @@ from utils.transforms import to_one_hot_majority, to_one_hot, concatenate_cities
 # Define labels
 labels = np.arange(1,18)
 
-path_data = "/data/lcz42_cities/"
+path_data = "/data/lcz42_votes/"
 
 test_cities = ['amsterdam', 'berlin', 'cologne', 'london', 'madrid',
              'milan', 'munich', 'paris', 'rome', 'zurich']
 
-test_addons = ['guangzhou_addon', 'islamabad_addon', 'jakarta_addon', 'losangeles_addon', 'moscow_addon',
-              'mumbai_addon', 'nairobi_addon', 'riodejaneiro_addon']
+test_addons = ['guangzhou', 'islamabad', 'jakarta', 'losangeles', 'moscow',
+              'mumbai', 'nairobi', 'riodejaneiro']
 
 # Concatenate labels of individual test cities and transform to one-hot representation
 y_test_cities = concatenate_cities_labels(test_cities).astype(int)
@@ -31,6 +31,8 @@ indices_val = np.random.choice(np.arange(y_test.shape[0]), math.ceil(0.3 * y_tes
 indices_test = list(set(np.arange(y_test.shape[0])) - set(indices_val))
 
 y_test_label_distributions = y_test[indices_test,]
+
+path_data = "/data/lcz42_cities/"
 
 test_label_distributions_data_h5 = h5py.File(path_data + 'test_label_distributions_data.h5', 'w')
 test_label_distributions_data_h5.create_dataset('test_label_distributions', data=y_test_label_distributions)
