@@ -32,6 +32,8 @@ indices_test = list(set(np.arange(y_test.shape[0])) - set(indices_val))
 
 y_test_label_distributions = y_test[indices_test,]
 
+y_test_label_distributions = y_test_label_distributions / y_test_label_distributions.sum(axis=1, keepdims=True)
+
 path_data = "/data/lcz42_cities/"
 
 test_label_distributions_data_h5 = h5py.File(path_data + 'test_label_distributions_data.h5', 'w')
