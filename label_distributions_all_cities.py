@@ -19,22 +19,29 @@ test_addons = ['guangzhou_addon', 'islamabad_addon', 'jakarta_addon', 'losangele
 
 # Concatenate labels of individual test cities and transform to one-hot representation
 y_test_cities = concatenate_cities_labels(test_cities).astype(int)
+y_test_cities_majority = to_one_hot_majority(y_test_cities, labels, addon=False)
 y_test_cities = to_one_hot(y_test_cities, labels, addon=False)
 # Concatenate labels of individual test addons and transform to one-hot representation
 y_test_addons = concatenate_cities_labels(test_addons).astype(int)
+y_test_addons_majority = to_one_hot_majority(y_test_addons, labels, addon=True)
 y_test_addons = to_one_hot(y_test_addons, labels, addon=True)
 
 # Concatenate labels of test cities & addons
 y_test = np.vstack((y_test_cities, y_test_addons))
 y_test = y_test.astype(int)
 
+# Concatenate labels of test cities & addons after majority vote
+y_test_majority = np.vstack((y_test_cities_majority, y_test_addons_majority))
+y_test_majority = y_test_majority.astype(int)
+
 np.random.seed(4242)
 indices_val = np.random.choice(np.arange(y_test.shape[0]), math.ceil(0.3 * y_test.shape[0]), False)
 indices_test = list(set(np.arange(y_test.shape[0])) - set(indices_val))
 
 y_test = y_test[indices_test,]
+y_test_majority = y_test_majority[indices_test, ]
 
-indices_test = np.where(np.where(y_test == np.amax(y_test, 0))[1] + 1 < 11)[0]
+indices_test = np.where(np.where(y_test_majority == np.amax(y_test_majority, 0))[1] + 1 < 11)[0]
 # !!! Limit to 10 columns to receive distribution + entropy only w.r.t. urban classes !!!
 y_test = y_test[indices_test, :10]
 
