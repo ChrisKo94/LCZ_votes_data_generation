@@ -1,6 +1,8 @@
 import numpy as np
 import h5py
 import math
+import torch
+from torch.distributions import Categorical
 
 from utils.transforms import to_one_hot_majority, to_one_hot, concatenate_cities_labels, concatenate_cities_patches
 
@@ -30,12 +32,24 @@ np.random.seed(4242)
 indices_val = np.random.choice(np.arange(y_test.shape[0]), math.ceil(0.3 * y_test.shape[0]), False)
 indices_test = list(set(np.arange(y_test.shape[0])) - set(indices_val))
 
-y_test_label_distributions = y_test[indices_test,]
+y_test = y_test[indices_test,]
 
-y_test_label_distributions = y_test_label_distributions / y_test_label_distributions.sum(axis=1, keepdims=True)
+indices_test = np.where(np.where(y_test == np.amax(y_test, 0))[1] + 1 < 11)[0]
+# !!! Limit to 10 columns to receive distribution + entropy only w.r.t. urban classes !!!
+y_test = y_test[indices_test, :10]
+
+y_test_label_distributions = y_test / y_test.sum(axis=1, keepdims=True)
 
 path_data = "/data/lcz42_cities/"
 
 test_label_distributions_data_h5 = h5py.File(path_data + 'test_label_distributions_data.h5', 'w')
 test_label_distributions_data_h5.create_dataset('test_label_distributions', data=y_test_label_distributions)
 test_label_distributions_data_h5.close()
+
+y_test = torch.from_numpy(y_test)
+
+entropies_test = Categorical(probs = y_test).entropy()
+
+entropies_h5 = h5py.File(path_data + 'entropies_test.h5', 'w')
+entropies_h5.create_dataset('entropies_test', data=entropies_test.numpy())
+entropies_h5.close()

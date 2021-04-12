@@ -138,39 +138,7 @@ entropies_test_h5 = h5py.File(path_data + 'entropies_test.h5', 'w')
 entropies_test_h5.create_dataset('entropies_test', data=entropies_test.numpy())
 entropies_test_h5.close()
 
-############################################ All entropies #############################################################
 
-# Concatenate labels of individual test cities and transform to one-hot representation
-y_cities = concatenate_cities_labels(city_list).astype(int)
-y_cities = to_one_hot(y_cities, labels, addon=False)
-
-# Concatenate labels of individual test addons and transform to one-hot representation
-y_addons = concatenate_cities_labels(addon_list).astype(int)
-y_addons = to_one_hot(y_addons, labels, addon=True)
-
-y_cities = y_cities.astype(int)
-y_addons = y_addons.astype(int)
-
-### Save label distributions ###
-label_distributions = np.vstack((y_cities, y_addons))
-label_distributions_h5 = h5py.File(path_data + "label_distributions.h5", "w")
-label_distributions_h5.create_dataset("label_distributions", data=label_distributions)
-label_distributions_h5.close()
-
-y_cities = torch.from_numpy(y_cities)
-y_cities = y_cities / y_cities.sum(axis=1, keepdims=True)
-y_addons = torch.from_numpy(y_addons)
-y_addons = y_addons / y_addons.sum(axis=1, keepdims=True)
-
-entropies_cities = Categorical(probs = y_cities).entropy()
-entropies_addons = Categorical(probs = y_addons).entropy()
-
-# Concatenate entropies of test cities & addons
-entropies = torch.cat((entropies_cities, entropies_addons), 0)
-
-entropies_h5 = h5py.File(path_data + 'entropies_all.h5', 'w')
-entropies_h5.create_dataset('entropies', data=entropies.numpy())
-entropies_h5.close()
 
 
 
