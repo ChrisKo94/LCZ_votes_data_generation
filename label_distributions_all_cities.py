@@ -51,6 +51,7 @@ path_data = "/data/lcz42_cities/"
 
 test_label_distributions_data_h5 = h5py.File(path_data + 'test_label_distributions_data.h5', 'w')
 test_label_distributions_data_h5.create_dataset('test_label_distributions', data=y_test_label_distributions)
+#test_label_distributions_data_h5.create_dataset('test_label_distributions_raw', data=y_test_label_distributions)
 test_label_distributions_data_h5.close()
 
 y_test = torch.from_numpy(y_test)
