@@ -9,8 +9,8 @@ from utils.transforms import to_one_hot_majority, to_one_hot, concatenate_cities
 # Define labels
 labels = np.arange(1,18)
 
-#path_data = "/data/lcz42_votes/data/"
-path_data = "D:/Data/LCZ_Votes/"
+path_data = "/data/lcz42_votes/data/"
+#path_data = "D:/Data/LCZ_Votes/"
 
 alpha = 0.08
 
