@@ -9,7 +9,10 @@ from utils.transforms import to_one_hot_majority, to_one_hot, concatenate_cities
 # Define labels
 labels = np.arange(1,18)
 
-path_data = "/data/lcz42_votes/data/"
+#path_data = "/data/lcz42_votes/data/"
+path_data = "D:/Data/LCZ_Votes/"
+
+alpha = 0.08
 
 city_list = ['amsterdam', 'berlin', 'cologne', 'london', 'madrid',
              'milan', 'munich', 'paris', 'rome', 'zurich']
@@ -63,7 +66,7 @@ indices_train = np.where(np.where(y_train_majority == np.amax(y_train_majority, 
 # !!! Limit to 10 columns to receive distribution + entropy only w.r.t. urban classes !!!
 y_train = y_train[indices_train, :10]
 
-y_train_label_distributions = y_train / y_train.sum(axis=1, keepdims=True)
+y_train_label_distributions = (y_train + alpha) / (y_train.sum(axis=1, keepdims=True) * (1 + alpha))
 
 np.random.seed(42)
 indices_val = np.random.choice(np.arange(y_test.shape[0]), math.ceil(0.5 * y_test.shape[0]), False)
@@ -78,23 +81,36 @@ indices_val = np.where(np.where(y_val_majority == np.amax(y_val_majority, 0))[1]
 # !!! Limit to 10 columns to receive distribution + entropy only w.r.t. urban classes !!!
 y_val = y_val[indices_val, :10]
 
-y_val_label_distributions = y_val / y_val.sum(axis=1, keepdims=True)
+y_val_label_distributions = (y_val + alpha) / (y_val.sum(axis=1, keepdims=True) * (1 + alpha))
 
 indices_test = np.where(np.where(y_test_majority == np.amax(y_test_majority, 0))[1] + 1 < 11)[0]
 # !!! Limit to 10 columns to receive distribution + entropy only w.r.t. urban classes !!!
 y_test = y_test[indices_test, :10]
 
-y_test_label_distributions = y_test / y_test.sum(axis=1, keepdims=True)
+y_test_label_distributions = (y_test + alpha) / (y_test.sum(axis=1, keepdims=True) * (1 + alpha))
 
-train_label_distributions_data_h5 = h5py.File(path_data + 'train_label_distributions_data.h5', 'w')
-train_label_distributions_data_h5.create_dataset('train_label_distributions', data=y_train_label_distributions)
-train_label_distributions_data_h5.close()
+if alpha > 0:
+    train_label_distributions_data_h5 = h5py.File(path_data + 'train_label_distributions_data' + '_alpha_' + alpha + '.h5', 'w')
+    train_label_distributions_data_h5.create_dataset('train_label_distributions', data=y_train_label_distributions)
+    train_label_distributions_data_h5.close()
 
-val_label_distributions_data_h5 = h5py.File(path_data + 'val_label_distributions_data.h5', 'w')
-val_label_distributions_data_h5.create_dataset('val_label_distributions', data=y_val_label_distributions)
-val_label_distributions_data_h5.close()
+    val_label_distributions_data_h5 = h5py.File(path_data + 'val_label_distributions_data' + '_alpha_' + alpha + '.h5', 'w')
+    val_label_distributions_data_h5.create_dataset('val_label_distributions', data=y_val_label_distributions)
+    val_label_distributions_data_h5.close()
 
-test_label_distributions_data_h5 = h5py.File(path_data + 'test_label_distributions_data.h5', 'w')
-test_label_distributions_data_h5.create_dataset('test_label_distributions', data=y_test_label_distributions)
-test_label_distributions_data_h5.close()
+    test_label_distributions_data_h5 = h5py.File(path_data + 'test_label_distributions_data' + '_alpha_' + alpha + '.h5', 'w')
+    test_label_distributions_data_h5.create_dataset('test_label_distributions', data=y_test_label_distributions)
+    test_label_distributions_data_h5.close()
+else:
+    train_label_distributions_data_h5 = h5py.File(path_data + 'train_label_distributions_data.h5', 'w')
+    train_label_distributions_data_h5.create_dataset('train_label_distributions', data=y_train_label_distributions)
+    train_label_distributions_data_h5.close()
+
+    val_label_distributions_data_h5 = h5py.File(path_data + 'val_label_distributions_data.h5', 'w')
+    val_label_distributions_data_h5.create_dataset('val_label_distributions', data=y_val_label_distributions)
+    val_label_distributions_data_h5.close()
+
+    test_label_distributions_data_h5 = h5py.File(path_data + 'test_label_distributions_data.h5', 'w')
+    test_label_distributions_data_h5.create_dataset('test_label_distributions', data=y_test_label_distributions)
+    test_label_distributions_data_h5.close()
 
