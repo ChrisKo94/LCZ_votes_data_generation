@@ -90,15 +90,15 @@ y_test = y_test[indices_test, :10]
 y_test_label_distributions = (y_test + alpha) / (y_test.sum(axis=1, keepdims=True) * (1 + alpha))
 
 if alpha > 0:
-    train_label_distributions_data_h5 = h5py.File(path_data + 'train_label_distributions_data' + '_alpha_' + alpha + '.h5', 'w')
+    train_label_distributions_data_h5 = h5py.File(path_data + 'train_label_distributions_data' + '_alpha_' + str(alpha) + '.h5', 'w')
     train_label_distributions_data_h5.create_dataset('train_label_distributions', data=y_train_label_distributions)
     train_label_distributions_data_h5.close()
 
-    val_label_distributions_data_h5 = h5py.File(path_data + 'val_label_distributions_data' + '_alpha_' + alpha + '.h5', 'w')
+    val_label_distributions_data_h5 = h5py.File(path_data + 'val_label_distributions_data' + '_alpha_' + str(alpha) + '.h5', 'w')
     val_label_distributions_data_h5.create_dataset('val_label_distributions', data=y_val_label_distributions)
     val_label_distributions_data_h5.close()
 
-    test_label_distributions_data_h5 = h5py.File(path_data + 'test_label_distributions_data' + '_alpha_' + alpha + '.h5', 'w')
+    test_label_distributions_data_h5 = h5py.File(path_data + 'test_label_distributions_data' + '_alpha_' + str(alpha) + '.h5', 'w')
     test_label_distributions_data_h5.create_dataset('test_label_distributions', data=y_test_label_distributions)
     test_label_distributions_data_h5.close()
 else:
